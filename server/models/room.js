@@ -9,6 +9,10 @@ var RoomSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    videoPath: {
+        type: String,
+        required: true
+    },
     price: {
         type: Number,
         required: true,
@@ -22,5 +26,4 @@ var RoomSchema = new mongoose.Schema({
 });
 
 let Room = mongoose.model('Room', RoomSchema);
-
-module.exports = {Room};
+module.exports = { Room };
