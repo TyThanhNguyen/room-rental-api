@@ -8,4 +8,4 @@ let FacilitySchema = new mongoose.Schema({
 });
 
 let Facility = mongoose.model('Facility', FacilitySchema);
-module.exports = {Facility};
+module.exports = { Facility };

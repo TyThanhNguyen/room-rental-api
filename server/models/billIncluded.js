@@ -8,4 +8,4 @@ let BillIncludedSchema = new mongoose.Schema({
 });
 
 let BillIncluded = mongoose.model('BillIncludedSchema', BillIncludedSchema);
-module.exports = {BillIncluded};
+module.exports = { BillIncluded };

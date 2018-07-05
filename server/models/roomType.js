@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 let RoomTypeSchema = new mongoose.Schema({
-    title: {
+    name: {
         type: String,
         required: true
     },
@@ -12,4 +12,4 @@ let RoomTypeSchema = new mongoose.Schema({
 });
 
 let RoomType = mongoose.model('RoomType', RoomTypeSchem);
-module.exports = {RoomType};
+module.exports = { RoomType };

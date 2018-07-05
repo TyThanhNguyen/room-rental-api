@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 let SecurityAndSafetySchema = new mongoose.Schema({
-    item: {
+    name: {
         type: String,
         required: true
     }
