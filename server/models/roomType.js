@@ -12,5 +12,16 @@ let RoomTypeSchema = new mongoose.Schema({
     }
 });
 
+// model methods
+RoomTypeSchema.statics.existVerify = function (name) {
+    var roomType = this;
+    return RoomType.findOne({name}).then((roomType) => {
+        if (roomType === null) {
+            return Promise.resolve();
+        }
+        return Promise.reject('Exist');
+    });
+};
+
 let RoomType = mongoose.model('RoomType', RoomTypeSchema);
 module.exports = { RoomType };
