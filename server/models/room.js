@@ -2,12 +2,14 @@ const mongoose = require('mongoose');
 
 var RoomSchema = new mongoose.Schema({
     imagePath: {
-        type: String,
-        required: true
+        type: [String],
+        required: true,
+        default: []
     },
     videoPath: {
         type: String,
-        required: true
+        required: true,
+        default: []
     },
     description: {
         type: String,
@@ -28,7 +30,7 @@ var RoomSchema = new mongoose.Schema({
     },
     facilities: {
         type: [mongoose.Schema.Types.ObjectId],
-        required: true
+        rtequired: true
     },
     billIncluded: {
         type: [mongoose.Schema.Types.ObjectId],
