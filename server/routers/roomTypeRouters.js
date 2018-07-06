@@ -5,9 +5,6 @@ const { RoomType } = require('../models/roomType');
 
 router.get('/room-type', (req, res) => {
     RoomType.find().then((roomType) => {
-        if(!roomType) {
-            return res.status(404).send();
-        }
         res.send(roomType);
     }).catch((e) => {
         res.status(400).send();
