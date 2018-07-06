@@ -5,9 +5,6 @@ const { RoomDetail } = require('../models/roomDetail');
 
 router.get('/room-detail', (req, res) => {
     RoomDetail.find().then((roomDetail) => {
-        if (!roomDetail) {
-            return res.status(404).send();
-        }
         res.send(roomDetail);
     }).catch((e) => {
         res.status(404).send();
@@ -17,6 +14,7 @@ router.get('/room-detail', (req, res) => {
 router.post('/room-detail', (req, res) => {
     let body = _.pick(req.body, ['name', 'description']);
     let roomDetail = new RoomDetail(body);
+    // check if room-detail object is existed before save to db
     RoomDetail.existVerify(roomDetail.name).then(() => {
         roomDetail.save().then((roomDetail) => {
             res.send(roomDetail);
