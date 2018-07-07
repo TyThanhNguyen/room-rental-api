@@ -4,8 +4,8 @@ const _ = require('lodash');
 const { RoomType } = require('../models/roomType');
 
 router.get('/room-type', (req, res) => {
-    RoomType.find().then((roomType) => {
-        res.send(roomType);
+    RoomType.find().then((roomTypes) => {
+        res.send(roomTypes);
     }).catch((e) => {
         res.status(400).send();
     })

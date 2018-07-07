@@ -4,8 +4,8 @@ const _ = require('lodash');
 const { RoomDetail } = require('../models/roomDetail');
 
 router.get('/room-detail', (req, res) => {
-    RoomDetail.find().then((roomDetail) => {
-        res.send(roomDetail);
+    RoomDetail.find().then((roomDetails) => {
+        res.send(roomDetails);
     }).catch((e) => {
         res.status(404).send();
     });

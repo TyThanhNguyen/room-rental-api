@@ -4,9 +4,8 @@ const _ = require('lodash');
 const { BillIncluded } = require('../models/billIncluded');
 
 router.get('/bill-included', (req, res) => {
-    BillIncluded.find().then((billIncluded) => {
-        console.log(billIncluded);
-        res.send(billIncluded);
+    BillIncluded.find().then((billIncludeds) => {
+        res.send(billIncludeds);
     }).catch((e) => {
         res.status(400).send();
     });
