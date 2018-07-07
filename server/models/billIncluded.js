@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 let BillIncludedSchema = new mongoose.Schema({
     item: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     }
 });
 

@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 let FacilitySchema = new mongoose.Schema({
     item: {
         type: String,
-        requied: true
+        requied: true,
+        trim: true
     }
 });
 
