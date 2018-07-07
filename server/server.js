@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const roomTypeRouters = require('./routers/roomTypeRouters');
 const roomDetailRouters = require('./routers/roomDetailRouters');
 const facilityRouters = require('./routers/facilityRouter');
+const billIncludedRouters = require('./routers/billIncludedRouter');
 
 const port = process.env.PORT;
 let app = express();
@@ -14,6 +15,7 @@ app.use(bodyParser.json());
 app.use('/admin', roomTypeRouters);
 app.use('/admin', roomDetailRouters);
 app.use('/admin', facilityRouters);
+app.use('/admin', billIncludedRouters);
 
 app.listen(port, () => {
     console.log(`server is running at http://localhost:${port}/`);

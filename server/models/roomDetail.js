@@ -14,7 +14,7 @@ let RoomDetailSchema = new mongoose.Schema({
 RoomDetailSchema.statics.existVerify = function(name) {
     let roomDetail = this;
     return RoomDetail.findOne({name}).then((roomDetail) => {
-        if (roomDetail === null) {
+        if (!roomDetail) {
             return Promise.resolve();
         }
         return Promise.reject('Exist')

@@ -16,7 +16,7 @@ let RoomTypeSchema = new mongoose.Schema({
 RoomTypeSchema.statics.existVerify = function (name) {
     var roomType = this;
     return RoomType.findOne({name}).then((roomType) => {
-        if (roomType === null) {
+        if (!roomType) {
             return Promise.resolve();
         }
         return Promise.reject('Exist');
