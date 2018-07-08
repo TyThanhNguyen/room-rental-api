@@ -1,47 +1,67 @@
 const mongoose = require('mongoose');
 
 var RoomSchema = new mongoose.Schema({
-    imagePath: {
+    imagePaths: {
         type: [String],
-        required: true,
+        required: false,
+        trim: true,
         default: []
     },
     videoPath: {
         type: String,
+        required: false,
+        trim: true,
+        default: ''
+    },
+    address: {
+        type: String,
         required: true,
-        default: []
+        trim: true
     },
     description: {
         type: String,
         required: true,
         trim: true,
-        default: ''
     },
     price: {
         type: Number,
         required: true,
-        default: 0.00
+        trim: true,
+    },
+    roomType: {
+        type: String,
+        required: true, 
+        trim: true
+    },
+    roomDetails: {
+        type: [String],
+        required: true,
+        trim: true
     },
     moveInDate: {
-        type: Date
+        type: Date,
+        required: true,
+        trim: true
     },
     moveOutDate: {
-        type: Date
+        type: Date,
+        required: false,
+        trim: true
     },
     facilities: {
-        type: [mongoose.Schema.Types.ObjectId],
-        rtequired: true
+        type: [String],
+        required: true
     },
     billIncluded: {
-        type: [mongoose.Schema.Types.ObjectId],
+        type: [String],
         required: true
     },
     securityAndSafety: {
-        type: [mongoose.Schema.Types.ObjectId],
+        type: [String],
         required: false
     },
     propertyRule: {
-        type: [mongoose.Schema.Types.ObjectId],
+        type: [String],
         required: false
     },
     created: {
