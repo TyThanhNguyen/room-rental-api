@@ -3,7 +3,7 @@ const { ObjectID } = require('mongodb');
 const _ = require('lodash');
 const path = require('path');
 const multer = require('multer');
-const { Room } = require('../models/room');
+const { Room } = require('../../models/room');
 
 let upload = multer({storage: multer.diskStorage({
         destination: function(req, file, cb) {

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { ObjectID } = require('mongodb');
 const _ = require('lodash');
-const { PropertyRule } = require('../models/propertyRule');
+const { PropertyRule } = require('../../models/propertyRule');
 
 router.get('/property-rule', (req, res) => {
     PropertyRule.find().then((propertyRules) => {
