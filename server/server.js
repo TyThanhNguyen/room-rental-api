@@ -3,13 +3,16 @@ require('./db/mongoose');
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const roomTypeRouters = require('./routers/hostAndAdmin/roomTypeRouters');
-const roomDetailRouters = require('./routers/hostAndAdmin/roomDetailRouters');
-const facilityRouters = require('./routers/hostAndAdmin/facilityRouter');
-const billIncludedRouters = require('./routers/hostAndAdmin/billIncludedRouter');
-const propertyRuleRouters = require('./routers/hostAndAdmin/propertyRuleRouter');
-const securityAndSafetyRouters = require('./routers/hostAndAdmin/securityAndSafety');
-const roomRouters = require('./routers/hostAndAdmin/roomRouter');
+const roomTypeRouters = require('./routers/base/roomTypeRouters');
+const roomDetailRouters = require('./routers/base/roomDetailRouters');
+const facilityRouters = require('./routers/base/facilityRouters');
+const billIncludedRouters = require('./routers/base/billIncludedRouters');
+const placeRouters = require('./routers/base/placeRouters');
+const propertyRuleRouters = require('./routers/base/propertyRuleRouters');
+const securityAndSafetyRouters = require('./routers/base/securityAndSafetyRouters');
+const roomRouters = require('./routers/base/roomRouters');
+const roomListRouters = require('./routers/tenant/roomListRouters');
+
 
 const port = process.env.PORT;
 let app = express();
@@ -22,6 +25,7 @@ app.use('/admin', roomTypeRouters);
 app.use('/admin', roomDetailRouters);
 app.use('/admin', facilityRouters);
 app.use('/admin', billIncludedRouters);
+app.use('/admin', placeRouters);
 app.use('/admin', propertyRuleRouters);
 app.use('/admin', securityAndSafetyRouters);
 app.use('/admin', roomRouters);
@@ -31,18 +35,13 @@ app.use('/host', roomTypeRouters);
 app.use('/host', roomDetailRouters);
 app.use('/host', facilityRouters);
 app.use('/host', billIncludedRouters);
+app.use('/host', placeRouters);
 app.use('/host', propertyRuleRouters);
 app.use('/host', securityAndSafetyRouters);
 app.use('/host', roomRouters);
 
-// guest routers
-app.use('/', roomTypeRouters);
-app.use('/', roomDetailRouters);
-app.use('/', facilityRouters);
-app.use('/', billIncludedRouters);
-app.use('/', propertyRuleRouters);
-app.use('/', securityAndSafetyRouters);
-app.use('/', roomRouters);
+// tenant routers
+app.use('/', roomListRouters);
 
 app.listen(port, () => {
     console.log(`server is running at http://localhost:${port}/`);

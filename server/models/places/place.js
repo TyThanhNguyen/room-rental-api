@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var RoomSchema = new mongoose.Schema({
+var PlaceSchema = new mongoose.Schema({
     imagePaths: {
         type: [String],
         required: false,
@@ -13,6 +13,11 @@ var RoomSchema = new mongoose.Schema({
         trim: true,
         default: ''
     },
+    name: {
+        type: String,
+        required: true,
+        trim: true
+    },
     address: {
         type: String,
         required: true,
@@ -23,30 +28,9 @@ var RoomSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
-    price: {
-        type: Number,
-        required: true,
-        trim: true,
-    },
-    roomType: {
-        type: String,
-        required: true, 
-        trim: true
-    },
-    roomDetails: {
-        type: [String],
-        required: true,
-        trim: true
-    },
-    moveInDate: {
-        type: Date,
-        required: true,
-        trim: true
-    },
-    moveOutDate: {
-        type: Date,
-        required: false,
-        trim: true
+    room: {
+        type: [mongoose.Schema.Types.ObjectId],
+        required: true
     },
     facilities: {
         type: [String],
@@ -74,5 +58,5 @@ var RoomSchema = new mongoose.Schema({
     }
 });
 
-let Room = mongoose.model('Room', RoomSchema);
-module.exports = { Room };
+let Place = mongoose.model('Place', PlaceSchema);
+module.exports = { Place };

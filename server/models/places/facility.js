@@ -5,6 +5,14 @@ let FacilitySchema = new mongoose.Schema({
         type: String,
         requied: true,
         trim: true
+    },
+    created: {
+        type: Date,
+        default: Date.now
+    },
+    updated: {
+        type: Date,
+        default: Date.now
     }
 });
 

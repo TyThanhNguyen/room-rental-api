@@ -3,7 +3,7 @@ const { ObjectID } = require('mongodb');
 const _ = require('lodash');
 const path = require('path');
 const multer = require('multer');
-const { Room } = require('../../models/room');
+const { Place } = require('../../models/places/place');
 
 let upload = multer({storage: multer.diskStorage({
         destination: function(req, file, cb) {
@@ -22,33 +22,33 @@ let upload = multer({storage: multer.diskStorage({
     }
 });
 
-router.get('/room', (req, res) => {
-    Room.find().then((rooms) => {
-        res.send(rooms);
+router.get('/places', (req, res) => {
+    Place.find().then((places) => {
+        res.send(places);
     }).catch((e) => {
         res.status(400).send();
     });
 });
 
-router.post('/room/', upload.any(), (req, res) => {
+router.post('/place', upload.any(), (req, res) => {
     let imagePaths = [];
     req.files.forEach(image => {
         imagePaths.push(image.path);
     });
-    let room = new Room();
-    room.imagePaths = imagePaths;
+    let place = new Place();
+    place.imagePaths = imagePaths;
     let content = req.body;
     for (let key in content) {
-            room[key] = content[key];
+        place[key] = content[key];
     }
-    room.save().then((room) => {
-        res.send(room);
+    place.save().then((place) => {
+        res.send(place);
     }).catch((e) => {
         res.status(400).send();
     });
 });
 
-router.patch('/room/:id', upload.any(), (req, res) => {
+router.patch('/place/:id', upload.any(), (req, res) => {
     let id = req.params.id;
     if (!ObjectID.isValid(id)) {
         return res.status(404).send();
@@ -57,32 +57,32 @@ router.patch('/room/:id', upload.any(), (req, res) => {
     req.files.forEach(image => {
         imagePaths.push(image.path);
     });
-    let newRoom = {};
-    newRoom.imagePaths = imagePaths;
+    let newPlace = {};
+    newPlace.imagePaths = imagePaths;
     let content = req.body;
     for (let key in content) {
-        newRoom[key] = content[key];
+        newPlace[key] = content[key];
     }
-    Room.findByIdAndUpdate(id, {$set: newRoom}, {new: true}).then((room) => {
-        if (!room) {
+    Place.findByIdAndUpdate(id, {$set: newPlace}, {new: true}).then((place) => {
+        if (!place) {
             return res.status(404).send();
         }
-        res.send(room);
+        res.send(place);
     }).catch((e) => {
         res.status(400).send();
     });
 });
 
-router.delete('/room/:id', (req, res) => {
+router.delete('/place/:id', (req, res) => {
     let id = req.params.id;
     if (!ObjectID.isValid) {
         return res.status(404).send();
     }
-    Room.findByIdAndRemove(id).then((room) => {
-        if (!room) {
+    Place.findByIdAndRemove(id).then((place) => {
+        if (!place) {
             return res.status(404).send();
         }
-        res.send(room);
+        res.send(place);
     }).catch((e) => {
         res.status(400).send();
     });

@@ -8,6 +8,14 @@ let RoomDetailSchema = new mongoose.Schema({
     },
     description: {
         type: String
+    },
+    created: {
+        type: Date,
+        default: Date.now
+    },
+    updated: {
+        type: Date,
+        default: Date.now
     }
 });
 

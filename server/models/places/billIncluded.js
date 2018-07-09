@@ -5,6 +5,14 @@ let BillIncludedSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
+    },
+    created: {
+        type: Date,
+        default: Date.now
+    },
+    updated: {
+        type: Date,
+        default: Date.now
     }
 });
 
@@ -19,5 +27,5 @@ BillIncludedSchema.statics.existVerify = function(item) {
     });
 };
 
-let BillIncluded = mongoose.model('BillIncludedSchema', BillIncludedSchema);
+let BillIncluded = mongoose.model('BillIncluded', BillIncludedSchema);
 module.exports = { BillIncluded };

@@ -9,6 +9,14 @@ let RoomTypeSchema = new mongoose.Schema({
     description: {
         type: String,
         trim: true
+    },
+    created: {
+        type: Date,
+        default: Date.now
+    },
+    updated: {
+        type: Date,
+        default: Date.now
     }
 });
 

@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const { ObjectID } = require('mongodb');
 const _ = require('lodash');
-const { RoomType } = require('../../models/roomType');
+const { RoomType } = require('../../models/rooms/roomType');
 
-router.get('/room-type', (req, res) => {
+router.get('/room-types', (req, res) => {
     RoomType.find().then((roomTypes) => {
         res.send(roomTypes);
     }).catch((e) => {
