@@ -12,7 +12,8 @@ router.get('/rooms', (req, res) => {
 });
 
 router.post('/room', (req, res) => {
-    let body = _.pick(req.body, ['price', 'roomType', 'roomDetails', 'moveInDate', 'moveOutDate']);
+    console.log('rooom');
+    let body = _.pick(req.body, ['belongToPlace' ,'price', 'roomType', 'roomDetails', 'moveInDate', 'moveOutDate']);
     let room = new Room(body);
     room.save().then((room) => {
         res.send(room);

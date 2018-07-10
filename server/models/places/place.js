@@ -28,10 +28,10 @@ var PlaceSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
-    room: {
-        type: [mongoose.Schema.Types.ObjectId],
-        required: true
-    },
+    room: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room',
+    }],
     facilities: {
         type: [String],
         required: true

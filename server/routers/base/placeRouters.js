@@ -42,6 +42,7 @@ router.post('/place', upload.any(), (req, res) => {
         place[key] = content[key];
     }
     place.save().then((place) => {
+        console.log(place)
         res.send(place);
     }).catch((e) => {
         res.status(400).send();

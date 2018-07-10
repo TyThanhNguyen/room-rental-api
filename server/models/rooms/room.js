@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 var RoomSchema = new mongoose.Schema({
     belongToPlace: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        ref: 'Place'
     },
     price: {
         type: Number,
