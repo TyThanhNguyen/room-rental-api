@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var PlaceSchema = new mongoose.Schema({
+let PlaceSchema = new mongoose.Schema({
     imagePaths: {
         type: [String],
         required: false,
@@ -57,6 +57,16 @@ var PlaceSchema = new mongoose.Schema({
         default: Date.now
     }
 });
+
+PlaceSchema.statics.existVerify = function(address) {
+    let place = this;
+    return Place.findOne({address}).then((place) => {
+        if (!place) {
+            return Promise.resolve();
+        }
+        return Promise.reject('Exist');
+    })
+} 
 
 let Place = mongoose.model('Place', PlaceSchema);
 module.exports = { Place };
