@@ -4,23 +4,7 @@ const _ = require('lodash');
 const path = require('path');
 const multer = require('multer');
 const { Place } = require('../../models/places/place');
-
-let upload = multer({storage: multer.diskStorage({
-        destination: function(req, file, cb) {
-            cb(null, 'public/images/uploads');
-        },
-        filename: function(req, file, cb) {
-            cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-        }
-    }),
-    fileFilter: function(req, file, cb) {
-        var ext = path.extname(file.originalname);
-        if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
-            return cb(res.send('Only images are allowed'), null, false)
-        }
-        cb(null, true)
-    }
-});
+const upload = require('../../utils/imageUpload');
 
 router.get('/places', (req, res) => {
     Place.find().then((places) => {
@@ -41,11 +25,17 @@ router.post('/place', upload.any(), (req, res) => {
     for (let key in content) {
         place[key] = content[key];
     }
-    place.save().then((place) => {
-        console.log(place)
-        res.send(place);
+
+    Place.existVerify(place.address).then(() => {
+        place.save().then((place) => {
+            res.send(place);
+        });
     }).catch((e) => {
-        res.status(400).send();
+        if (e === 'Exist') {
+            res.send('A place with this address is already existed');
+        } else {
+            res.status(400).send();
+        }
     });
 });
 
