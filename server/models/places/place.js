@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const distance = require('google-distance');
+distance.apiKey = 'AIzaSyCeloAlhmwFvWKXXVzTDcLP5AsZWVetln0';
 
 let PlaceSchema = new mongoose.Schema({
     imagePaths: {
@@ -66,7 +68,8 @@ PlaceSchema.statics.existVerify = function(address) {
         }
         return Promise.reject('Exist');
     })
-} 
+}
 
 let Place = mongoose.model('Place', PlaceSchema);
 module.exports = { Place };
+

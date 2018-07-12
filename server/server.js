@@ -16,7 +16,6 @@ const placeListRouters = require('./routers/tenant/placeListRouters');
 const placeDetailsRouters = require('./routers/tenant/placeDetailsRouters');
 const collegeRouters = require('./routers/tenant/collegeRouters');
 
-
 const port = process.env.PORT;
 let app = express();
 app.use(express.static('uploads'));

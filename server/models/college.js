@@ -6,6 +6,11 @@ let CollegeSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    address: {
+        type: String,
+        required: true,
+        trim: true
+    },
     imagePath: {
         type: String,
         required: true
