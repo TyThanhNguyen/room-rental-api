@@ -41,18 +41,11 @@ const getDistance = (places, college, callback) => {
                             function(err, data) {
                                 if (err) { return console.log(err); }
                                 let walkingDistance = {mode: "driving", duration: data.duration, distanceValue: data.durationValue};
-                                // console.log('driving: ', data);
                                 distances.push(walkingDistance);
             
                                 let placeObject = place.toObject();
                                 placeObject.distances = distances;
-                                // console.log("placeObject: ", placeObject);
                                 placeArray.push(placeObject);
-                                // console.log("placeArray: ", placeArray);
-                                // if (Object.is(places.length - 1, key)) {
-                                //     console.log("key: ", key);
-                                //     callback(placeArray);
-                                // }
                                 itemsProcessed++;
                                 if (itemsProcessed === places.length) {
                                     callback(placeArray);
