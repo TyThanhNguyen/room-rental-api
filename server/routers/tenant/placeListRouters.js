@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const distance = require('google-distance');
 const { Room } = require('../../models/rooms/room');
 const { Place } = require('../../models/places/place');
 const { RoomType } = require('../../models/rooms/roomType');
@@ -9,68 +8,10 @@ const { Facility } = require('../../models/places/facility');
 const { PropertyRule } = require('../../models/places/propertyRule');
 const { SecurityAndSafety } = require('../../models/places/securityAndSafety');
 const { College } = require('../../models/college');
+const { getDistance } = require('../../utils/getDistance');
+const { compare } = require('../../utils/sorting');
 
-distance.apiKey = 'AIzaSyCeloAlhmwFvWKXXVzTDcLP5AsZWVetln0';
 // get all places
-
-let getDistance = (places, college, callback) => {
-    let placeArray = [];
-    places.forEach((place, key, places) => {
-        let distances = [];
-        distance.get(
-            {
-                origin: college.address,
-                destination: place.address,
-                mode: 'walking',
-                units: 'metric'
-            },
-            function(err, data) {
-                if (err) { return console.log(err); }
-                let walkingDistance = {mode: "walking", duration: data.duration};
-                distances.push(walkingDistance);
-
-                distance.get(
-                    {
-                        origin: college.address,
-                        destination: place.address,
-                        mode: 'transit',
-                        transit_mode: 'bus',
-                        units: 'metric'
-                    },
-                    function(err, data) {
-                        if (err) { return console.log(err); }
-                        let walkingDistance = {mode: "bus", duration: data.duration};
-                        distances.push(walkingDistance);
-    
-                        distance.get(
-                            {
-                                origin: college.address,
-                                destination: place.address,
-                                mode: 'driving',
-                                units: 'metric'
-                            },
-                            function(err, data) {
-                                if (err) { return console.log(err); }
-                                let walkingDistance = {mode: "driving", duration: data.duration};
-                                distances.push(walkingDistance);
-            
-                                let placeObject = place.toObject();
-                                placeObject.distances = distances;
-                                // console.log("placeObject: ", placeObject);
-                                placeArray.push(placeObject);
-                                // console.log("placeArray: ", placeArray);
-                                if (Object.is(places.length - 1, key)) {
-                                    console.log("key: ", key);
-                                    callback(placeArray);
-                                }
-                            }
-                        );
-                    }
-                );
-            }
-        );
-    });
-}
 router.get('/:college/places', (req, res) => {
     let college = req.params.college;
     console.log("college: ", college);
@@ -81,7 +22,8 @@ router.get('/:college/places', (req, res) => {
                     return res.status(404).send();
                 }
                 getDistance(places, college, (placeArray) => {
-                    console.log('result: ', placeArray);
+                    console.log('length of result: ', placeArray.length);
+                    placeArray.sort(compare);
                     res.send({result: placeArray});
                 });
 
