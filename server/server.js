@@ -15,6 +15,7 @@ const roomRouters = require('./routers/base/roomRouters');
 const placeListRouters = require('./routers/tenant/placeListRouters');
 const placeDetailsRouters = require('./routers/tenant/placeDetailsRouters');
 const collegeRouters = require('./routers/tenant/collegeRouters');
+const adminUserRouter = require('./routers/admin/adminUserRouters');
 
 const port = process.env.PORT;
 let app = express();
@@ -32,6 +33,7 @@ app.use('/admin', placeRouters);
 app.use('/admin', propertyRuleRouters);
 app.use('/admin', securityAndSafetyRouters);
 app.use('/admin', roomRouters);
+app.use('/admin', adminUserRouter);
 
 // host routers
 app.use('/host', roomTypeRouters);
