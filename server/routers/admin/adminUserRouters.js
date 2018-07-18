@@ -38,7 +38,6 @@ router.post('/users/login', (req, res) => {
 });
 
 router.get('/users/me', authenticate, (req, res) => {
-    console.log('aa')
     res.send(req.user);
 });
 

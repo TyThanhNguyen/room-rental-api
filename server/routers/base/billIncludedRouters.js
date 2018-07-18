@@ -20,7 +20,7 @@ router.post('/bill-included', (req, res) => {
         });
     }).catch((e) => {
         if (e === 'Exist') {
-            res.send('This bill included item is already existed');
+            res.send('Already existed');
         } else {
             res.status(400).send();
         }

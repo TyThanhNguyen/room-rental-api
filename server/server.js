@@ -4,6 +4,7 @@ require('./db/mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require('cors');
 const roomTypeRouters = require('./routers/base/roomTypeRouters');
 const roomDetailRouters = require('./routers/base/roomDetailRouters');
 const facilityRouters = require('./routers/base/facilityRouters');
@@ -19,6 +20,7 @@ const adminUserRouter = require('./routers/admin/adminUserRouters');
 
 const port = process.env.PORT;
 let app = express();
+app.use(cors());
 app.use(express.static('uploads'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
