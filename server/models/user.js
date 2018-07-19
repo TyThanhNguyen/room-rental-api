@@ -42,6 +42,8 @@ UserSchema.methods.generateAuthToken = function(type) {
         access = 'tenantAuth'
     } else if (type === 'admin') {
         access = 'adminAuth';
+    } else if (type === 'host') {
+        access = 'hostAuth';
     }
     
     let token = jwt.sign({_id: user._id.toHexString(), access}, 'fyp2018').toString();
