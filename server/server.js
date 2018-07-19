@@ -17,6 +17,7 @@ const placeListRouters = require('./routers/tenant/placeListRouters');
 const placeDetailsRouters = require('./routers/tenant/placeDetailsRouters');
 const collegeRouters = require('./routers/tenant/collegeRouters');
 const adminUserRouter = require('./routers/admin/adminUserRouters');
+const authTenantRouters = require('./routers/tenant/authTenantRouters');
 
 const port = process.env.PORT;
 let app = express();
@@ -48,9 +49,10 @@ app.use('/host', securityAndSafetyRouters);
 app.use('/host', roomRouters);
 
 // tenant routers
-app.use('/', placeListRouters);
-app.use('/', placeDetailsRouters);
-app.use('/', collegeRouters);
+app.use('/tenant', placeListRouters);
+app.use('/tenant', placeDetailsRouters);
+app.use('/tenant', collegeRouters);
+app.use('/tenant', authTenantRouters);
 
 app.listen(port, () => {
     console.log(`server is running at http://localhost:${port}/`);

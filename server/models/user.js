@@ -35,9 +35,15 @@ let UserSchema = new mongoose.Schema({
 });
 
 // instance methods
-UserSchema.methods.generateAuthToken = function() {
+UserSchema.methods.generateAuthToken = function(type) {
     let user = this;
-    let access = 'auth';
+    let access = ''
+    if (type === 'tenant') {
+        access = 'tenantAuth'
+    } else if (type === 'admin') {
+        access = 'adminAuth';
+    }
+    
     let token = jwt.sign({_id: user._id.toHexString(), access}, 'fyp2018').toString();
 
     user.tokens.push({access, token});
@@ -50,13 +56,17 @@ UserSchema.methods.generateAuthToken = function() {
 // hash password
 UserSchema.pre('save', function(next) {
     let user = this;
-    let password = user.password;
-    bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(password, salt, (err, hash) => {
-            user.password = hash;
-            next();
+    if (user.isModified('password')) {
+        let password = user.password;
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(password, salt, (err, hash) => {
+                user.password = hash;
+                next();
+            })
         });
-    });
+    } else {
+        next();
+    }
 });
 
 // model methods
@@ -73,7 +83,7 @@ UserSchema.statics.findByCredentials = function(email, password) {
                 } else {
                     reject();
                 }
-            });
+            })
         });
     });
 };
@@ -91,7 +101,7 @@ UserSchema.statics.findByToken = function(token) {
     return User.findOne({
         '_id': decoded._id,
         'tokens.token': token,
-        'tokens.access': 'auth'
+        'tokens.access': decoded.access
     });
 };
 
