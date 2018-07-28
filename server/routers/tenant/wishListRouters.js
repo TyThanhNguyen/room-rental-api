@@ -3,18 +3,38 @@ const _ = require('lodash');
 const {WishList}  = require('../../models/wishlist');
 const {authenticate} = require('../../middleware/authenticate');
 
-router.get('/wishlists', (req, res) => {
-    WishList.find().then((wishlists) => {
-        res.send(wishlists);
+// get wishlist of auth tenant user
+router.get('/wishlists', authenticate, (req, res) => {
+    // get access type
+    let access = req.user.tokens[0].access;
+    // check the right to access router of auth user.
+    if (access !== 'tenantAuth') {
+        res.status(401).send();
+    }
+
+    let userId = req.user._id;
+    console.log(userId);
+    WishList.find({userId}).then((wishList) => {
+        console.log(wishList);
+        res.send(wishList);
     }).catch((e) => {
         res.status(400).send();
     });
 });
 
-router.post('/wishlists', (req, res) => {
-    let body = _.pick(req.body, ['userId', 'placeId']);
-    let wishlist = new WishList(body);
-    let userId = body.userId;
+// create a new wish one of auth tenant user
+router.post('/wishlists', authenticate, (req, res) => {
+    // get access type
+    let access = req.user.tokens[0].access;
+    // check the right to access router of auth user.
+    if (access !== 'tenantAuth') {
+        res.status(401).send();
+    }
+
+    let userId = req.user._id;
+    let placeId = req.body.placeId;
+    let wishlist = new WishList({userId, placeId});
+
     // find one by userId
     WishList.findOne({userId}).then((result) => {
         if (!result) {
@@ -24,12 +44,13 @@ router.post('/wishlists', (req, res) => {
         } else {
             // find existed one in a list of placeId
             let existedId = result.placeId.find((element) => {
-                return element == body.placeId;
+                return element == placeId;
             });
             // already exist
-            if (existedId) return res.status(200).send('This place is already existed in your wishlist')
+            if (typeof(existedId) !== 'undefined') return res.status(200).send('This place is already existed in your wishlist')
+
             // update wishlist
-            result.placeId.push(body.placeId);
+            result.placeId.push(placeId);
             WishList.findByIdAndUpdate(result._id, {$set: result}, {new: true}).then((newWishList) => {
                 res.send(newWishList);
             });
@@ -39,6 +60,7 @@ router.post('/wishlists', (req, res) => {
     })
 });
 
+// delete one by auth tenant
 router.delete('/wishlists/:placeId', authenticate, (req, res) => {
     let placeId = req.params.placeId;
     let userId = req.user._id;
