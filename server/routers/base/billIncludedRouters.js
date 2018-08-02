@@ -55,6 +55,7 @@ router.post('/bill-included', (req, res) => {
         });
     }).catch((e) => {
         if (e === 'Exist') {
+            console.log('run');
             res.send('Already existed');
         } else {
             res.status(400).send();

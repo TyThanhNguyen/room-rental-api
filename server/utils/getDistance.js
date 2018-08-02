@@ -1,5 +1,6 @@
 const distance = require('google-distance');
-distance.apiKey = 'AIzaSyCeloAlhmwFvWKXXVzTDcLP5AsZWxxxxxx';
+distance.apiKey = 'AIzaSyCeloAlhmwFvWKXXVzTDcLP5AsZWVetln0';
+
 
 const getDistance = (places, college, callback) => {
     let placeArray = [];

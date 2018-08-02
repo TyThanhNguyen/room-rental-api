@@ -13,6 +13,7 @@ const { compare } = require('../../utils/sorting');
 
 // get all places
 router.get('/:college/places', (req, res) => {
+    console.log('aa')
     let college = req.params.college;
     console.log("college: ", college);
     Place.find().then((places) => {
