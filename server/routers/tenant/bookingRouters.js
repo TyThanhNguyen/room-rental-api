@@ -78,7 +78,9 @@ router.get('/booking', authenticate, (req, res) => {
         res.status(401).send();
     }
     let userId = req.user._id;
-    Booking.find({userId}).populate('roomId').populate('placeId').exec((error, booking) => {
+    console.log('userId',userId);
+
+    Booking.findOne({userId}).populate('roomId').populate('placeId').exec((error, booking) => {
         if (error) {
             return res.status(404).send(error);
         }
@@ -86,6 +88,13 @@ router.get('/booking', authenticate, (req, res) => {
     });
 });
 
+    // Booking.find({userId}).populate('roomId').populate('placeId').exec((error, booking) => {
+    //     if (error) {
+    //         return res.status(404).send(error);
+    //     }
+    //     console.log(booking);
+    //     res.send(booking);
+    // });
 
 // create a new booking for tenant user
 /**
@@ -166,28 +175,23 @@ router.post('/booking', authenticate, (req, res) => {
         res.status(401).send();
     }
     let placeId = req.body.placeId;
-    let roomIds = req.body.roomIds;
+    let roomId = req.body.roomId;
     let moveInDate = req.body.moveInDate;
     let moveOutDate = req.body.moveOutDate;
     let itemsProcessed = 0;
-    let bookingList = [];
-    roomIds.forEach(roomId => {
-        let booking = new Booking({
-            placeId,
-            roomId,
-            userId: req.user._id,
-            moveInDate,
-            moveOutDate
-        });
-        bookingList.push(booking)
-        itemsProcessed++;
-        booking.save().then(() => {
-            if (itemsProcessed === roomIds.length) {
-                res.send(bookingList);
-            }
-        }).catch((e) => {
-            res.status(400).send();
-        });
+    let booking = new Booking({
+        placeId,
+        roomId,
+        userId: req.user._id,
+        moveInDate,
+        moveOutDate
+    });
+    console.log(booking);
+    booking.save().then((booking) => {
+            console.log('res :' , booking);
+            res.send(booking);
+    }).catch((e) => {
+        res.status(400).send();
     });
 });
 
