@@ -13,7 +13,6 @@ const { compare } = require('../../utils/sorting');
 
 // get all places
 router.get('/:college/places', (req, res) => {
-    console.log('aa')
     let college = req.params.college;
     console.log("college: ", college);
     Place.find().then((places) => {
@@ -24,6 +23,11 @@ router.get('/:college/places', (req, res) => {
                 }
                 getDistance(places, college, (placeArray) => {
                     console.log('length of result: ', placeArray.length);
+                    console.log(placeArray);
+                    let url = 'http://localhost:3000/';
+                    placeArray.forEach(element => {
+                        element.imagePaths = element.imagePaths.map(path => url + path);
+                    });
                     placeArray.sort(compare);
                     res.send({result: placeArray});
                 });

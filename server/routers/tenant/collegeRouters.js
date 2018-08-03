@@ -6,19 +6,27 @@ const { College } = require('../../models/college');
 const upload = require('../../utils/imageUpload');
 
 router.get('/college', (req, res) => {
-    College.find().then((college) => {
-        res.send(college);
+    College.find().then((colleges) => {
+        colleges.forEach(college => {
+            let url = 'http://localhost:3000/';
+            college.imagePath = url + college.imagePath;
+        })
+        res.send(colleges);
     }).catch((e) => {
         res.status(400).send();
     })
 });
 
 router.post('/college', upload.any() ,(req, res) => {
+    console.log('abc');
     let collegeImagePath = req.files[0].path;
     let collegeName = req.body.name;
-    let college = new College({name: collegeName, imagePath: collegeImagePath});
+    let collegeAddress = req.body.address;
+    let college = new College({name: collegeName, imagePath: collegeImagePath, address: collegeAddress});
     College.existVerify(collegeName).then(() => {
         college.save().then((college) => {
+            let url = 'http://localhost:3000/'
+            college.imagePath = url + college.imagePath
             res.send(college);
         });
     }).catch((e) => {
