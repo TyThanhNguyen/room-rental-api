@@ -11,9 +11,12 @@ router.get('/place/:id', (req, res) => {
     Place.findById(id)
          .populate('room')
          .exec((error, place) => {
-             if (error) {
-                 return res.status(404).send()
-             }
+            if (error) {
+                return res.status(404).send()
+            }
+
+            let url = 'http://localhost:3000/';
+            place.imagePaths = place.imagePaths.map(element => url + element);
             res.send(place);
          });
 });
